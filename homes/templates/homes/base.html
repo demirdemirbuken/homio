@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<!-- Static CSS -->
+{% load static %}
+<link rel="stylesheet" href="{% static 'homes/style.css' %}">
+
+    <title>{% block title %}Homio{% endblock %}</title>
+</head>
+<body style="font-family: Arial; padding: 20px;">
+
+    <!-- 🔝 Navbar -->
+    <div style="background: #eee; padding: 10px; border-radius: 8px; margin-bottom: 20px;">
+        {% if user.is_authenticated %}
+            Hello, <strong>{{ user.username }}</strong> |
+            <a href="{% url 'logout' %}">Log Out</a>
+            <a href="{% url 'profile' %}">My Profile</a> |
+
+        {% else %}
+            <a href="{% url 'login' %}">Log In</a> |
+            <a href="{% url 'signup' %}">Sign Up</a>
+        {% endif %}
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

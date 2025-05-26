@@ -1,0 +1,47 @@
+{% extends 'homes/base.html' %}
+{% block content %}
+
+<h1>🏠 Welcome to Homio</h1>
+
+<!-- 🔍 Search Form -->
+<form method="get" style="margin-bottom: 30px;">
+    <label>Location:</label>
+    <input type="text" name="location" placeholder="City" value="{{ request.GET.location }}">
+
+    <label>Check-in Date:</label>
+    <input type="date" name="checkin" value="{{ request.GET.checkin }}">
+
+    <label>Check-out Date:</label>
+    <input type="date" name="checkout" value="{{ request.GET.checkout }}">
+
+    <label>Guests:</label>
+    <input type="number" name="guests" min="1" value="{{ request.GET.guests }}">
+
+    <button type="submit">Search</button>
+</form>
+
+<!-- 🏘️ Listings -->
+{% for listing in listings %}
+    <div class="listing-card">
+        {% if listing.image %}
+            <img src="{{ listing.image.url }}" alt="Property">
+        {% else %}
+            <div style="width: 200px; height: 150px; background: #eee; display: flex; align-items: center; justify-content: center;">
+                No Image
+            </div>
+        {% endif %}
+        <div>
+            <h2>{{ listing.title }}</h2>
+            <p><strong>Location:</strong> {{ listing.location }}</p>
+            <p><strong>Price:</strong> ${{ listing.price_per_night }} / night</p>
+            <p><strong>Guests:</strong> {{ listing.guest_capacity }}</p>
+            <p>{{ listing.description|truncatewords:20 }}</p>
+            <a href="{% url 'listing_detail' listing.pk %}">View Details</a>
+        </div>
+    </div>
+{% empty %}
+    <p>No listings match your search 😢</p>
+{% endfor %}
+
+{% endblock %}
+

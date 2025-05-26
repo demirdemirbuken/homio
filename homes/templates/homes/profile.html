@@ -1,0 +1,38 @@
+{% extends 'homes/base.html' %}
+{% block content %}
+
+<h1>My Profile</h1>
+
+<ul>
+    <li><strong>First Name:</strong> {{ user.first_name }}</li>
+    <li><strong>Last Name:</strong> {{ user.last_name }}</li>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    <li><strong>Phone Number:</strong> {{ profile.phone_number }}</li>
+    <li><strong>ID / Passport No:</strong> {{ profile.id_or_passport_number }}</li>
+</ul>
+
+<hr>
+
+<h2>My Reservations</h2>
+
+{% if reservations %}
+    <ul>
+        {% for booking in reservations %}
+            <li>
+                <strong>{{ booking.listing.title }}</strong><br>
+                From <strong>{{ booking.check_in }}</strong> to <strong>{{ booking.check_out }}</strong><br>
+                Guests: {{ booking.guests }}<br>
+                <a href="{% url 'listing_detail' booking.listing.pk %}">View Listing</a>
+                <a href="{% url 'cancel_reservation' booking.pk %}">Cancel</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no reservations yet.</p>
+{% endif %}
+
+<br>
+
+<a href="{% url 'home' %}">⬅ Back to Home</a>
+
+{% endblock %}
